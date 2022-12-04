@@ -52,20 +52,17 @@ public class Character : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D col)
     {
         var cl = col.gameObject.GetComponent<Cloud>();
-        if (cl != null)
-        {
-            this.onPlayerDie.Invoke();
-            return;
-        }
-        
+        if (cl == null) return;
+        this.onPlayerDie.Invoke();
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
         var coin = col.gameObject.GetComponent<Coin>();
-        if (coin != null)
-        {
-            score += coin.Value;
-            this.uiHandler.UpdateScore(score);
-            Destroy(coin.gameObject);
-        }
-        
+        if (coin == null) return;
+        score += coin.Value;
+        this.uiHandler.UpdateScore(score);
+        Destroy(coin.gameObject);
     }
 
     public void SubscribeOnPlayerDie(UnityAction action)
